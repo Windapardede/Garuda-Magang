@@ -23,8 +23,8 @@ COPY . /var/www
 # Install dependencies Laravel
 RUN composer install
 
-# Expose port 8000
-EXPOSE 8000
+# ✅ Expose port 8080 (sesuai dengan CMD)
+EXPOSE 8080
 
-# Jalankan Laravel development server
+# ✅ Jalankan Laravel di port 8080
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
