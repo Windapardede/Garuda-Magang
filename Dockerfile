@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# Install ekstensi yang dibutuhkan Laravel
+# Install ekstensi
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -11,20 +11,16 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql zip gd
 
-# Install Composer
+# Composer
 COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /var/www
-
-# Copy seluruh project ke dalam container
 COPY . /var/www
 
-# Install dependencies Laravel
 RUN composer install
 
-# ✅ Expose port 8080 (sesuai dengan CMD)
+# ✅ Sesuaikan EXPOSE port
 EXPOSE 8080
 
-# ✅ Jalankan Laravel di port 8080
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+# ✅ Gunakan ini agar Railway bisa detect server kamu
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
